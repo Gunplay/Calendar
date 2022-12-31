@@ -1,37 +1,32 @@
 import React from 'react'
 import moment from 'moment/moment'
+import styled from 'styled-components'
 import { Header } from '../Header'
 import { Monitor } from '../Monitor'
 import CalendarGrid from '../CalendarGrid'
 
+const ShadowWrapper = styled.div`
+  border-top: 1px solid #737374;
+  border-left: 1px solid #464648;
+  border-right: 1px solid #464648;
+  border-botton: 1px solid #464648;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
+`
 function App() {
   window.moment = moment
 
   moment.updateLocale('eng', { week: { dow: 1 } })
 
   const startDayOfWeek = moment().startOf('month').startOf('week')
-  // const endDayOfWeek = moment().endOf('month').endOf('week')
-  // // console.log(startDayOfWeek.format('YYYY-MM-DD')) // Monday 28
-  // // console.log(endDayOfWeek.format('YYYY-MM-DD')) // Sunday 31
-
-  // const calendar = []
-  // const day = startDayOfWeek.clone()
-
-  // window.day = day
-  // window.startDayOfWeek = startDayOfWeek
-  // window.endDayOfWeek = endDayOfWeek
-
-  // while (!day.isAfter(endDayOfWeek)) {
-  //   calendar.push(day.clone()) // clone () что бы не перезаписывать один и тот же день
-  //   day.add(1, 'day')
-  // }
 
   return (
-    <div>
+    <ShadowWrapper>
       <Header />
       <Monitor />
       <CalendarGrid startDayOfWeek={startDayOfWeek} />
-    </div>
+    </ShadowWrapper>
   )
 }
 
