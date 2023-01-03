@@ -51,7 +51,7 @@ const CalendarGrid = ({ startDayOfWeek }) => {
     <GridWrapper>
       {daysArray.map((dayItem) => (
         <CellWrapper
-          key={dayItem.format('DDMMYYYY')}
+          key={dayItem.unix()} // число секунд с 1970 гожа
           isWeekend={dayItem.day() === 6 || dayItem.day() === 0}
         >
           <RowInCell justifyContent={'flex-end'}>

@@ -26,6 +26,7 @@ const ButtonWrapper = styled('button')`
   border-radius: 4px;
   border: 2px solid red;
   border: unset;
+  outline: unset;
   color: #e6e6e6;
   cursor: pointer;
 `
@@ -38,16 +39,16 @@ const ButtonsWrapper = styled('div')`
   display: flex;
   align-items: center;
 `
-const Monitor = ({ today }) => (
+const Monitor = ({ today, prevHandler, todayHandler, nextHandler }) => (
   <DivWrapper>
     <div>
       <TittleWrapper>{today.format('MMMM')}</TittleWrapper>
       <TextWrapper>{today.format('YYYY')}</TextWrapper>
     </div>
     <ButtonsWrapper>
-      <ButtonWrapper> &lt; </ButtonWrapper>
-      <TodayButton>Today</TodayButton>
-      <ButtonWrapper> &gt; </ButtonWrapper>
+      <ButtonWrapper onClick={prevHandler}> &lt; </ButtonWrapper>
+      <TodayButton onClick={todayHandler}>Today</TodayButton>
+      <ButtonWrapper onClick={nextHandler}> &gt; </ButtonWrapper>
     </ButtonsWrapper>
   </DivWrapper>
 )
