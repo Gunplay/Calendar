@@ -12,24 +12,43 @@ const DivWrapper = styled('div')`
 const TextWrapper = styled('span')`
   font-size: 32px;
 `
-// extent from parent - TextWrapper
+// extend from parent - TextWrapper - component
 const TittleWrapper = styled(TextWrapper)`
   font-weight: bold;
   margin-right: 8px;
 `
 console.log(TittleWrapper)
 
-const Monitor = () => (
+const ButtonWrapper = styled('button')`
+  background-color: #565759;
+  height: 28px;
+  margin-right: 2px;
+  border-radius: 4px;
+  border: 2px solid red;
+  border: unset;
+  color: #e6e6e6;
+  cursor: pointer;
+`
+const TodayButton = styled(ButtonWrapper)`
+  padding-right: 16px;
+  padding-left: 16px;
+  font-weight: bold;
+`
+const ButtonsWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+`
+const Monitor = ({ today }) => (
   <DivWrapper>
     <div>
-      <TittleWrapper>December</TittleWrapper>
-      <TextWrapper>2023</TextWrapper>
+      <TittleWrapper>{today.format('MMMM')}</TittleWrapper>
+      <TextWrapper>{today.format('YYYY')}</TextWrapper>
     </div>
-    <div>
-      <button> &lt; </button>
-      <button>Today</button>
-      <button> &gt; </button>
-    </div>
+    <ButtonsWrapper>
+      <ButtonWrapper> &lt; </ButtonWrapper>
+      <TodayButton>Today</TodayButton>
+      <ButtonWrapper> &gt; </ButtonWrapper>
+    </ButtonsWrapper>
   </DivWrapper>
 )
 

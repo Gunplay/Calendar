@@ -15,16 +15,16 @@ const ShadowWrapper = styled.div`
   box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
 `
 function App() {
-  window.moment = moment
-
   moment.updateLocale('eng', { week: { dow: 1 } })
+  const today = moment()
+  const startDayOfWeek = today.clone().startOf('month').startOf('week')
 
-  const startDayOfWeek = moment().startOf('month').startOf('week')
+  window.moment = moment
 
   return (
     <ShadowWrapper>
       <Header />
-      <Monitor />
+      <Monitor today={today} />
       <CalendarGrid startDayOfWeek={startDayOfWeek} />
     </ShadowWrapper>
   )
