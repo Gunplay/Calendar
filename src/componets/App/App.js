@@ -42,7 +42,7 @@ function App() {
         todayHandler={todayHandler}
         nextHandler={nextHandler}
       />
-      <CalendarGrid startDayOfWeek={startDayOfWeek} />
+      <CalendarGrid startDayOfWeek={startDayOfWeek} today={today} />
     </ShadowWrapper>
   )
 }

@@ -16,7 +16,7 @@ const CellWrapper = styled.div`
   min-width: 140px;
   min-height: ${(props) => (props.isHeader ? 24 : 80)}px;
   background-color: ${(props) => (props.isWeekend ? '#272829' : '#1e1f21')};
-  color: #dddcdd;
+  color: ${(props) => (props.isSelectedMonth ? '#dddcdd' : '#555759')};
 `
 
 const RowInCell = styled.div`
@@ -42,18 +42,19 @@ const CurrentDay = styled('div')`
   justify-content: center;
 `
 
-const CalendarGrid = ({ startDayOfWeek }) => {
+const CalendarGrid = ({ startDayOfWeek, today }) => {
   const totalDays = 42
   const day = startDayOfWeek.clone().subtract(1, 'day')
   const daysArray = [...Array(42)].map(() => day.add(1, 'day').clone()) // 6 week maks in the mounth (min = 4) 6 * 7 = 42 cels
   console.log(daysArray)
 
-  const isCurrentDay = (day) => moment().isSame(day, 'day')
+  const isCurrentDay = (day) => moment().isSame(day, 'day') // current day
+  const isSelectedMonth = (day) => today.isSame(day, 'month') // Прредали от радителя и сделали что текущий месяц был белым цветом
   return (
     <>
       <GridWrapper isHeader>
         {[...Array(7)].map((_, i) => (
-          <CellWrapper isHeader>
+          <CellWrapper isHeader isSelectedMonth>
             {/* padding-right 1 indent = 8px */}
             <RowInCell justifyContent={'flex-end'} pr={1}>
               {moment()
@@ -68,6 +69,7 @@ const CalendarGrid = ({ startDayOfWeek }) => {
           <CellWrapper
             key={dayItem.unix()} // число секунд с 1970 гожа
             isWeekend={dayItem.day() === 6 || dayItem.day() === 0}
+            isSelectedMonth={isSelectedMonth(dayItem)}
           >
             <RowInCell justifyContent={'flex-end'}>
               <DayWrapper>
