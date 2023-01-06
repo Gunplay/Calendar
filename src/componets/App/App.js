@@ -47,8 +47,11 @@ function App() {
         console.log('Response', res)
         setEvents(res)
       })
-  }, [])
+  }, [today])
 
+  const openFormHandler = (method) => {
+    console.log('openFormHandler', method)
+  }
   return (
     <ShadowWrapper>
       <Title />
@@ -62,7 +65,9 @@ function App() {
       <CalendarGrid
         startDayOfWeek={startDayOfWeek}
         today={today}
-        totalDay={totalDays}
+        totalDays={totalDays}
+        events={events}
+        openFormHandler={openFormHandler}
       />
     </ShadowWrapper>
   )
