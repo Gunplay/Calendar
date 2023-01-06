@@ -42,11 +42,11 @@ const CurrentDay = styled('div')`
   justify-content: center;
 `
 
-const CalendarGrid = ({ startDayOfWeek, today }) => {
-  const totalDays = 42
+const CalendarGrid = ({ startDayOfWeek, today, totalDays }) => {
+  // const totalDays = 42
   const day = startDayOfWeek.clone().subtract(1, 'day')
   const daysArray = [...Array(42)].map(() => day.add(1, 'day').clone()) // 6 week maks in the mounth (min = 4) 6 * 7 = 42 cels
-  console.log(daysArray)
+  // console.log(daysArray)
 
   const isCurrentDay = (day) => moment().isSame(day, 'day') // current day
   const isSelectedMonth = (day) => today.isSame(day, 'month') // Прредали от радителя и сделали что текущий месяц был белым цветом

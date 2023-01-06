@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment/moment'
 import styled from 'styled-components'
 import { Header } from '../Header'
@@ -15,6 +15,10 @@ const ShadowWrapper = styled.div`
   overflow: hidden;
   box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
 `
+
+const url = 'http://localhost:5000'
+const totalDays = 42
+
 function App() {
   moment.updateLocale('eng', { week: { dow: 1 } })
   // const today = moment()
@@ -32,6 +36,19 @@ function App() {
     setToday((next) => next.clone().add(1, 'month'))
   }
 
+  const [events, setEvents] = useState([])
+  const startDayQuery = startDayOfWeek.clone().format('X')
+  const endDayQuery = startDayOfWeek.clone().add(totalDays, 'days').format('X')
+
+  useEffect(() => {
+    fetch(`${url}/events?date_gte=${startDayQuery}&date_lte=${endDayQuery}`)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('Response', res)
+        setEvents(res)
+      })
+  }, [])
+
   return (
     <ShadowWrapper>
       <Title />
@@ -42,7 +59,11 @@ function App() {
         todayHandler={todayHandler}
         nextHandler={nextHandler}
       />
-      <CalendarGrid startDayOfWeek={startDayOfWeek} today={today} />
+      <CalendarGrid
+        startDayOfWeek={startDayOfWeek}
+        today={today}
+        totalDay={totalDays}
+      />
     </ShadowWrapper>
   )
 }

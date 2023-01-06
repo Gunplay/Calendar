@@ -5,3 +5,11 @@ json-server --watch db.json
 
 npm start - front
 npm run serve - back
+
+http://localhost:5000/events?_start=0&_end=3 - filrter use by id
+
+http://localhost:5000/events?date_gte=1672039822&date_lte=1675582222  - получаем массив данных для текущего разворота календаря (42 ячейки)
+                                    Dec mon 26 to Feb sun 5
+
+
+moment().format('X') - '1672999103'

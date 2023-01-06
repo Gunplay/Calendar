@@ -17,7 +17,7 @@ const TittleWrapper = styled(TextWrapper)`
   font-weight: bold;
   margin-right: 8px;
 `
-console.log(TittleWrapper)
+// console.log(TittleWrapper)
 
 const ButtonWrapper = styled('button')`
   background-color: #565759;
