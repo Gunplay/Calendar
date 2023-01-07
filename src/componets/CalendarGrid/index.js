@@ -15,6 +15,8 @@ const GridWrapper = styled.div`
 const CellWrapper = styled.div`
   min-width: 140px;
   min-height: ${(props) => (props.isHeader ? 24 : 80)}px;
+  display: ${(props) => (props.isHeader ? 'flex' : '')};
+  justify-content: ${(props) => (props.isHeader ? 'right' : '')};
   background-color: ${(props) => (props.isWeekend ? '#272829' : '#1e1f21')};
   color: ${(props) => (props.isSelectedMonth ? '#dddcdd' : '#555759')};
 `
@@ -105,7 +107,10 @@ const CalendarGrid = ({
             isSelectedMonth={isSelectedMonth(dayItem)}
           >
             <RowInCell justifyContent={'flex-end'}>
-              <ShowDayWrapper onDoubleClick={openFormHandler}>
+              <ShowDayWrapper
+                onDoubleClick={(e) => openFormHandler('Create')}
+                onDoubleClickCapture
+              >
                 <DayWrapper>
                   {isCurrentDay(dayItem) ? (
                     <CurrentDay>{dayItem.format('D')}</CurrentDay>
@@ -124,7 +129,9 @@ const CalendarGrid = ({
                   )
                   .map((event) => (
                     <li key={event.date}>
-                      <EventItemWrapper onDoubleClick={openFormHandler}>
+                      <EventItemWrapper
+                        onDoubleClick={(e) => openFormHandler('Update', event)}
+                      >
                         {event.title}
                       </EventItemWrapper>
                     </li>

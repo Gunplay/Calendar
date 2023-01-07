@@ -5,6 +5,7 @@ import { Header } from '../Header'
 import { Monitor } from '../Monitor'
 import CalendarGrid from '../CalendarGrid'
 import Title from '../Title'
+import '../../index.css'
 
 const ShadowWrapper = styled.div`
   border-top: 1px solid #737374;
@@ -15,9 +16,59 @@ const ShadowWrapper = styled.div`
   overflow: hidden;
   box-shadow: 0 0 0 1px #1a1a1a, 0 8px 20px 6px #888;
 `
+const FormPositionWrapper = styled('div')`
+  position: absolute;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.35);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const FormWrapper = styled(ShadowWrapper)`
+  width: 200px;
+  background-color: #1e1f21;
+  color: #dddddd;
+  box-shadow: unset;
+`
+const EventTitle = styled('input')`
+  padding: 4px 14px;
+  font-size: .85rem;
+  width: 100%;
+  border: unset:
+  background-color: #1e1f21;
+  color: #black;
+  outline: unset;
+  border-bottom: 1px solid #464648;
+`
+
+const EventBody = styled('input')`
+padding: 4px 14px;
+font-size: .85rem;
+width: 100%;
+border: unset:
+background-color: #1e1f21;
+color: #black;
+outline: unset;
+border-bottom: 1px solid #464648;
+`
+
+const ButtonsWrapper = styled('div')`
+  padding: 8px 14px;
+  display: flex;
+  justify-content: flex-end;
+`
 
 const url = 'http://localhost:5000'
 const totalDays = 42
+const defaultEvent = {
+  title: '',
+  description: '',
+  date: moment().format('X'),
+}
 
 function App() {
   moment.updateLocale('eng', { week: { dow: 1 } })
@@ -36,6 +87,10 @@ function App() {
     setToday((next) => next.clone().add(1, 'month'))
   }
 
+  const [method, setMethod] = useState(null)
+  const [isShowForm, setShowForm] = useState(false)
+  const [event, setEvent] = useState(null) // for create and update event
+
   const [events, setEvents] = useState([])
   const startDayQuery = startDayOfWeek.clone().format('X')
   const endDayQuery = startDayOfWeek.clone().add(totalDays, 'days').format('X')
@@ -49,27 +104,66 @@ function App() {
       })
   }, [today])
 
-  const openFormHandler = (method) => {
-    console.log('openFormHandler', method)
+  const openFormHandler = (methodName, eventForUpdate) => {
+    console.log('openFormHandler', methodName)
+    setShowForm(true)
+    setEvent(eventForUpdate || defaultEvent)
+    setMethod(methodName)
+  }
+
+  const cancelButtonHandler = () => {
+    setShowForm(false)
+    setEvent(null)
+  }
+
+  const changeEventHandler = (text, field) => {
+    setEvent((prevState) => ({
+      ...prevState,
+      [field]: text,
+    }))
   }
   return (
-    <ShadowWrapper>
-      <Title />
-      <Header />
-      <Monitor
-        today={today}
-        prevHandler={prevHandler}
-        todayHandler={todayHandler}
-        nextHandler={nextHandler}
-      />
-      <CalendarGrid
-        startDayOfWeek={startDayOfWeek}
-        today={today}
-        totalDays={totalDays}
-        events={events}
-        openFormHandler={openFormHandler}
-      />
-    </ShadowWrapper>
+    <>
+      {isShowForm ? (
+        <FormPositionWrapper onClick={cancelButtonHandler}>
+          {/* stopPropagation() убирает всплытие событий  !!!!*/}
+          <FormWrapper onClick={(e) => e.stopPropagation()}>
+            <EventTitle
+              value={event.title}
+              onChange={(e) => changeEventHandler(e.target.value, 'title')}
+            />
+            <EventBody
+              value={event.description}
+              onChange={(e) =>
+                changeEventHandler(e.target.value, 'description')
+              }
+            />
+            <ButtonsWrapper>
+              <button onClick={cancelButtonHandler}>Cancel</button>
+              <button>{method}</button>
+            </ButtonsWrapper>
+          </FormWrapper>
+        </FormPositionWrapper>
+      ) : null}
+      {/* isShowForm && <div>FORM</div> */}
+      <ShadowWrapper>
+        <Title />
+        <Header />
+        <Monitor
+          today={today}
+          prevHandler={prevHandler}
+          todayHandler={todayHandler}
+          nextHandler={nextHandler}
+        />
+        <CalendarGrid
+          startDayOfWeek={startDayOfWeek}
+          today={today}
+          totalDays={totalDays}
+          events={events}
+          openFormHandler={openFormHandler}
+        />
+      </ShadowWrapper>
+    </>
   )
 }
 
