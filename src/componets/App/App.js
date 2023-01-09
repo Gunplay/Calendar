@@ -64,6 +64,8 @@ const ButtonsWrapper = styled('div')`
 
 const url = 'http://localhost:5000'
 const totalDays = 42
+
+// CLick on date
 const defaultEvent = {
   title: '',
   description: '',
@@ -93,6 +95,7 @@ function App() {
 
   const [events, setEvents] = useState([])
   const startDayQuery = startDayOfWeek.clone().format('X')
+  console.log(startDayOfWeek)
   const endDayQuery = startDayOfWeek.clone().add(totalDays, 'days').format('X')
 
   useEffect(() => {
@@ -122,6 +125,33 @@ function App() {
       [field]: text,
     }))
   }
+
+  const eventFetchHandler = () => {
+    const fetchUrl =
+      method === 'Update' ? `${url}/events/${event.id}` : `${url}/events`
+    const httpMethod = method === 'Update' ? 'PATCH' : 'POST'
+
+    fetch(fetchUrl, {
+      method: httpMethod,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(event),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+        if (method === 'Update') {
+          setEvents((prevState) =>
+            prevState.map((eventEl) => (eventEl.id === res.id ? res : eventEl))
+          )
+        } else {
+          setEvents((prevState) => [...prevState, res])
+        }
+        cancelButtonHandler()
+      })
+  }
+
   return (
     <>
       {isShowForm ? (
@@ -140,7 +170,7 @@ function App() {
             />
             <ButtonsWrapper>
               <button onClick={cancelButtonHandler}>Cancel</button>
-              <button>{method}</button>
+              <button onClick={eventFetchHandler}>{method}</button>
             </ButtonsWrapper>
           </FormWrapper>
         </FormPositionWrapper>

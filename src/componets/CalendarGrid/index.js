@@ -70,7 +70,13 @@ const EventItemWrapper = styled('button')`
   padding: 0;
   text-align: left;
 `
+const Li = styled('li')`
+  color: orange;
+`
 
+const EventTitle = styled('span')`
+  color: white;
+`
 const CalendarGrid = ({
   startDayOfWeek,
   today,
@@ -107,10 +113,7 @@ const CalendarGrid = ({
             isSelectedMonth={isSelectedMonth(dayItem)}
           >
             <RowInCell justifyContent={'flex-end'}>
-              <ShowDayWrapper
-                onDoubleClick={(e) => openFormHandler('Create')}
-                onDoubleClickCapture
-              >
+              <ShowDayWrapper onDoubleClick={(e) => openFormHandler('Create')}>
                 <DayWrapper>
                   {isCurrentDay(dayItem) ? (
                     <CurrentDay>{dayItem.format('D')}</CurrentDay>
@@ -128,13 +131,13 @@ const CalendarGrid = ({
                       event.date <= dayItem.clone().endOf('day').format('X')
                   )
                   .map((event) => (
-                    <li key={event.date}>
+                    <Li key={event.date}>
                       <EventItemWrapper
                         onDoubleClick={(e) => openFormHandler('Update', event)}
                       >
-                        {event.title}
+                        <EventTitle>{event.title}</EventTitle>
                       </EventItemWrapper>
-                    </li>
+                    </Li>
                   ))}
                 {/* <div>E: {dayItem.clone().endOf('day').format('X')}</div> */}
               </EventListWrapper>
