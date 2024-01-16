@@ -1,3 +1,18 @@
+Calendar app ios type
+
+1 Implemented in IOS calendar style
+2 Implemented display of the current date in a red circle and so by pressing the button today we get the current day
+3 This is how you can switch the calendar by month using backwards and forwards
+4 This is how a modal window appears to add any events.
+
+LINK: 
+
+Technologies used:
+
+1 React.js;
+2 Styled component;
+3 Moment.js library for displaying the current date and also working with other date functionality;
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
